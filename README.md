@@ -1,6 +1,6 @@
 # Club Lit(erature) - Connect, Discover, and Share Your Love for Books
 
-Welcome to Club Lit(erature), a community-driven platform designed to unite book lovers across the globe. The goal is to create a space where readers can discover new books, join book clubs that match their interests, participate in discussions, and share their insights and reviews. 
+Welcome to Club Lit(erature), a community-driven platform designed to unite book lovers. The goal is to create a space where readers can discover new books, join book clubs that match their interests, participate in discussions, and share their insights and reviews. 
 
 ## Technical Stack
 
