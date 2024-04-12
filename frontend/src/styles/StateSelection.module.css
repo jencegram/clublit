@@ -1,0 +1,18 @@
+/* StateSelection.css */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stateBlock {
+  cursor: pointer;
+  padding: 10px;
+  border: 3px solid #3cc6e9;
+  border-radius: 5px;
+  text-align: center;
+  width: calc(20% - 20px); /* Adjusting for 5 items per row, accounting for gap */
+  box-sizing: border-box; /* Includes padding and border in the element's total size */
+}
