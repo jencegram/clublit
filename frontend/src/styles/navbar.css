@@ -3,8 +3,8 @@
 .navbar {
   position: fixed;
   top: 0;
-  left: 0; /* Make sure it starts from the very left */
-  right: 0; /* Make sure it extends to the very right */
+  left: 0; 
+  right: 0; 
   padding: 10px 0;
   z-index: 100;
   background: #fff;
@@ -17,15 +17,15 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
-  width: 100%; /* This will force the ul to take the full width of its parent */
-  max-width: 960px; /* Center content for large screens */
+  width: 100%; 
+  max-width: 960px; 
   display: flex;
-  justify-content: space-around; /* This will distribute space around items evenly */
+  justify-content: space-around; 
   align-items: center;
 }
 
 .navItem {
-  padding: 0 10px; /* Provide some spacing between items */
+  padding: 0 10px; 
 }
 
 .activeLink {
