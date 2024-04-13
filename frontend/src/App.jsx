@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { decodeToken } from "react-jwt";
+import { decodeToken } from 'react-jwt';
 import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
@@ -26,14 +26,14 @@ function App() {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
 
-    if (token) {
+     if (token) {
       const decoded = decodeToken(token);
       if (decoded) {
-        setUserId(decoded.userId);
+        setUserId(decoded.userId); 
       }
     }
   }, []);
-
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -41,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} userId={userId} />
+      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} userId={userId}/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route
