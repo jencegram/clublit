@@ -1,15 +1,24 @@
 .container {
   text-align: center;
   padding: 20px;
+  max-width: 600px; 
+  margin: auto; 
 }
 
 .title {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  font-size: 2em; 
+}
+
+.titleLine {
+  border-top: 3px solid #4CAF50; 
+  width: 100%;
 }
 
 .links {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column; 
+  align-items: center; 
   margin-top: 20px;
 }
 
@@ -21,6 +30,7 @@
   border-radius: 5px;
   text-decoration: none;
   font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .link:hover {
@@ -29,6 +39,12 @@
 
 .introText {
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: 1em; 
   color: #333; 
+}
+
+.clubLit {
+  color: #4CAF50; 
+  font-style: italic; 
+  font-weight: bold; 
 }
