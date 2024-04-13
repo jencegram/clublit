@@ -1,73 +1,117 @@
 # Club Lit(erature) - Connect, Discover, and Share Your Love for Books
 
-Welcome to Club Lit(erature), a community-driven platform designed to unite book lovers. The goal is to create a space where readers can discover new books, join book clubs that match their interests, participate in discussions, and share their insights and reviews. 
+Welcome to Club Lit(erature), a community-driven platform designed to unite book lovers. The goal is to create a space where readers can discover new books, join book clubs that match their interests, participate in discussions, and share their insights and reviews.
 
 ## Technical Stack
 
-- **Frontend**: React for building a dynamic and responsive UI.
-- **Backend**: Node.js with Express, handling robust backend logic and data management.
-- **Database**: PostgreSQL, ensuring reliable data storage and complex query handling.
+- **Frontend**: React.js
+- **Backend**: Node.js with Express.js
+- **Database**: PostgreSQL
+- **APIs**: Open Library API, Google Books API
 
+## Features
 
-## Data Management
+### Sign Up
 
-Platform will contain:
+New users can create an account to join the Club Lit(erature) community.
 
-- **User Profiles**: Detailed accounts of our users, including their interests and club memberships.
-- **Book Club Details**: Information on each book club, including their meetings and focus areas.
-- **Forum Posts**: Vibrant discussions and announcements within each club.
-- **Event Schedules**: Upcoming events and meetings for clubs.
+### Login
 
-To support our features, we'll integrate:
+Registered members can log in to access their personalized dashboard and book clubs.
 
-- [Open Library API](https://openlibrary.org/developers/api) for accessing an extensive database of books.
-- [Google Calendar API](https://developers.google.com/calendar/api/guides/overview) for managing event schedules.
+### Account Settings
 
+Users can update their account details, including password changes for enhanced security.
+
+### User Dashboard
+
+A personalized space where users can:
+- Track updates from their joined book clubs.
+- Manage their current reading list, with a limit of three books to maintain focus.
+- Mark books as finished or remove them from the list.
+
+### User Bookshelf
+
+A display of completed reads, showcasing book covers and reading achievements. It also features user preferences such as favorite genres and book quotes.
+
+### Profile Preferences
+
+Users can update their favorite genres and book quotes, reflecting their literary tastes on their bookshelf.
+
+### Book Search
+A feature that leverages the Open Library API and Google Books API to enable users to search for books by title, author, or ISBN. Search results provide essential details about the books, including thumbnails, which users can add to their reading list or book clubs.
+
+### Book Clubs
+
+- **Discovery and Membership**: Search for and join book clubs based on location and interest, with a limit of three memberships per user.
+- **Management**: Users can manage their memberships and club admins can edit club details.
+- **Creation**: Users can create new book clubs, setting up the name, description, location, and more.
+
+### Forums
+
+Each book club hosts forums for discussions on various topics, including:
+- Member Introductions
+- Events and Meetups
+- Book Discussions
+- Book Club Operations
+- Book Recommendations
+- Author Discussions
+- General Chat
+
+### Book Club Blurbs
+
+Admins can post updates to Meeting Info and Announcements, which are reflected in user dashboards.
 
 ## Database Schema Overview
 
-Below are the detailed schema descriptions and the relationships between them.
+The database schema is designed to store and manage user data, book club information, forum discussions, and more.
 
-### User Schema
+### Users
 
-- **UserID**: `SERIAL` (Primary Key) - Uniquely identifies each user.
-- **Username**: `VARCHAR` (Unique, Not Nullable) - User's chosen unique username.
-- **Email**: `VARCHAR` (Unique, Not Nullable) - User's unique email address.
-- **Password**: `VARCHAR` (Not Nullable) - User's password, stored in hashed format.
-- **JoinDate**: `DATE` (Not Nullable) - The date when the user joined.
-- **ProfilePrivacy**: `BOOLEAN` (Not Nullable) - Indicates if the user's profile is public (`true`) or private (`false`).
+Stores user profile information with privacy settings.
 
-### Book Club Schema
+### Book Clubs
 
-- **ClubID**: `SERIAL` (Primary Key) - Unique identifier for each book club.
-- **ClubName**: `VARCHAR` (Unique, Not Nullable) - Name of the book club, must be unique.
-- **Description**: `VARCHAR` (Not Nullable) - Description of the book club.
-- **Location**: `VARCHAR` (Nullable) - Physical or virtual location of the club.
-- **ClubPrivacy**: `BOOLEAN` (Not Nullable) - Whether the club is public (`true`) or private (`false`).
-- **AdminUserID**: `INTEGER` (Unique, Not Nullable, Foreign Key from User Schema) - The user managing the club.
-- **CreatedDate**: `DATE` (Not Nullable) - When the club was created.
+Manages book club details and user memberships.
 
-### Post Schema
+### Forums
 
-- **PostID**: `SERIAL` (Primary Key) - Unique identifier for each post.
-- **ClubID**: `INTEGER` (Not Nullable, Foreign Key from Book Club Schema) - Links the post to its respective book club.
-- **AuthorUserID**: `INTEGER` (Not Nullable, Foreign Key from User Schema) - The user who authored the post.
-- **Content**: `TEXT` (Not Nullable) - The textual content of the post.
-- **PostDate**: `DATE` (Not Nullable) - When the post was published.
+Hosts forum topics and discussions within book clubs.
 
-### Membership Schema
+### Memberships
 
-- **MembershipID**: `SERIAL` (Primary Key) - Unique identifier for each membership.
-- **UserID**: `INTEGER` (Not Nullable, Foreign Key from User Schema) - Indicates the user's membership in a club.
-- **ClubID**: `INTEGER` (Not Nullable, Foreign Key from Book Club Schema) - The club to which the user belongs.
-- **JoinDate**: `DATE` (Not Nullable) - The date the user joined the club.
+Tracks which users belong to which book clubs.
 
-### Representation of Relationships:
+### Posts
 
-- **User to Membership**: Reflects a zero-to-many relationship, where a user can belong to multiple book clubs or none.
-- **Book Club to Membership**: Demonstrates a one-to-many relationship, with each club having one to many members, starting with the creator/admin.
-- **Book Club to Post**: Indicates a zero-to-many relationship, as clubs can have many posts or none.
-- **User to Post**: Shows a zero-to-many relationship, with users potentially creating many posts or none.
-- **User to Book Club (via AdminUserID)**: Showcases a zero-or-one-to-one relationship, where users can administrate no more than one book club.
+Allows users to contribute to forum discussions.
+
+### States
+
+Maintains location data for user profiles and book clubs.
+
+### User Books
+
+Catalogs user reading lists and preferences.
+
+
+## Acknowledgments
+
+Gratitude to APIs that make this platform possible
+
+- Open Library API
+- Google Books API
+
+
+
+
+
+
+
+
+
+
+
+
 
 
