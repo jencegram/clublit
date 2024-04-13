@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import styles from "../styles/LandingPage.module.css";
 /**
  * LandingPage presents the main entry view of the application with navigation links to log in or sign up.
  *
@@ -13,11 +13,11 @@ import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
-    <div>
-      <h1>Welcome to ClubLit</h1>
-      <div>
-        <Link to="/login">Log In</Link>
-        <Link to="/signup">Sign Up</Link>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Welcome to ClubLit</h1>
+      <div className={styles.links}>
+        <Link to="/login" className={styles.link}>Log In</Link>
+        <Link to="/signup" className={styles.link}>Sign Up</Link>
       </div>
     </div>
   );
