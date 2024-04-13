@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { updatePassword } from "../api/userApi";
-
+import styles from "../styles/AccountSettings.module.css";
 /**
  * AccountSettings component provides an interface for users to change their password.
  * It includes form inputs for the old password, new password, and confirmation of the new password.
@@ -36,10 +36,11 @@ const AccountSettings = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Old Password:
+    <div className="account-settings">
+      <h2>Change Your Password</h2>
+      <form onSubmit={handleSubmit} className="password-form">
+        <div className="input-group">
+          <label>Old Password:</label>
           <input
             data-testid="oldPassword"
             type="password"
@@ -47,6 +48,9 @@ const AccountSettings = () => {
             onChange={(e) => setOldPassword(e.target.value)}
             required
           />
+        </div>
+        <div className="input-group">
+          <label>New Password:</label>
           <input
             data-testid="newPassword"
             type="password"
@@ -54,6 +58,9 @@ const AccountSettings = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             required
           />
+        </div>
+        <div className="input-group">
+          <label>Confirm New Password:</label>
           <input
             data-testid="confirmPassword"
             type="password"
@@ -61,13 +68,13 @@ const AccountSettings = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
+        </div>
         <button type="submit">Change Password</button>
       </form>
       {feedbackMessage && (
         <div className="feedback-message">{feedbackMessage}</div>
-      )}{" "}
-    </>
+      )}
+    </div>
   );
 };
 

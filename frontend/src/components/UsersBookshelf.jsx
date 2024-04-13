@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchUsersFinishedBooks } from "../api/bookApi";
 import { getUserPreferences } from "../api/bookClubApi";
 import { fetchCurrentlyReadingForUser } from "../api/bookApi";
+import styles from "../styles/UserBookshelf.module.css";
 
 /**
  * UsersBookshelf displays books and preferences for a specific user.
@@ -53,41 +54,42 @@ function UsersBookshelf() {
   return (
     <div>
       <h2>My Bookshelf</h2>
-      {/* Display Currently Reading Books */}
       {currentlyReading.length > 0 && (
         <div>
           <h3>Currently Reading</h3>
-          <ul>
+          <div className={styles.booksContainer}>
             {currentlyReading.map((book) => (
-              <li key={book.id}>
+              <div key={book.id} className={styles.bookCard}>
                 <img
                   src={book.coverImage}
                   alt={`Cover of ${book.title}`}
-                  style={{ width: "100px", height: "150px" }}
+                  className={styles.bookImage}
                 />
-                {book.title} by {book.author}
-              </li>
+                <div>
+                  {book.title} by {book.author}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
-      {/* Display User Preferences */}
-      <div>
-        <h3>Favorite Genre: {userPreferences.favoriteGenre}</h3>
-        <p>
-          Favorite Book Quote: &quot;{userPreferences.favoriteBookQuote}&quot;
-        </p>
-      </div>
-      {finishedBooks.length > 0 ? (
-        <ul>
-          {finishedBooks.map((book) => (
-            <li key={book.id}>
-              {book.title} by {book.author}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>You haven&apos;t finished any books yet.</p>
+      <h3>Favorite Genre: {userPreferences.favoriteGenre}</h3>
+      <p>
+        Favorite Book Quote: &quot;{userPreferences.favoriteBookQuote}&quot;
+      </p>
+      {finishedBooks.length > 0 && (
+        <div>
+          <h3>Finished Books</h3>
+          <div className={styles.booksContainer}>
+            {finishedBooks.map((book) => (
+              <div key={book.id} className={styles.bookCard}>
+                <div className={styles.finishedBookText}>
+                  {book.title} by {book.author}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
