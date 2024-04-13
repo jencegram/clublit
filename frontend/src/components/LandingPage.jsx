@@ -14,7 +14,13 @@ import styles from "../styles/LandingPage.module.css";
 function LandingPage() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Welcome to ClubLit</h1>
+      <h1 className={styles.title}>Explore the World of Books with ClubLit</h1>
+      <p className={styles.introText}>
+        Join a vibrant community of book enthusiasts. Discover your next great read, 
+        participate in book clubs, and share your thoughts in lively discussions. 
+        Whether you&apos;re a literary aficionado or looking for your next favorite novel, 
+        ClubLit is your go-to place for all things books.
+      </p>
       <div className={styles.links}>
         <Link to="/login" className={styles.link}>Log In</Link>
         <Link to="/signup" className={styles.link}>Sign Up</Link>
