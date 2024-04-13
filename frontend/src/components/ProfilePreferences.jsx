@@ -6,6 +6,7 @@ import {
   updateUserPreferences,
   getUserPreferences,
 } from "../api/bookClubApi";
+import styles from "../styles/ProfilePreferences.module.css";
 
 /**
  * ProfilePreferences allows users to set and update their favorite genre and book quote.
@@ -21,7 +22,6 @@ import {
  * - favoriteQuote: The user's favorite book quote.
  * - isUpdated: Boolean to trigger re-fetch after updates.
  */
-
 
 const ProfilePreferences = () => {
   const [genres, setGenres] = useState([]);
@@ -39,7 +39,7 @@ const ProfilePreferences = () => {
         const favoriteGenreId = allGenres.find(
           (g) => g.genre_name === preferences.favoriteGenre
         )?.genre_id;
-        setSelectedGenre(favoriteGenreId || ""); 
+        setSelectedGenre(favoriteGenreId || "");
 
         setFavoriteQuote(preferences.favoriteBookQuote);
       } catch (error) {
@@ -56,14 +56,14 @@ const ProfilePreferences = () => {
     const genreId = Number(selectedGenre);
 
     const preferencesToSave = {
-      favoriteGenre: genreId, 
+      favoriteGenre: genreId,
       favoriteBookQuote: favoriteQuote,
     };
 
     try {
       const response = await updateUserPreferences(preferencesToSave);
       if (response.success) {
-        setIsUpdated((prev) => !prev); 
+        setIsUpdated((prev) => !prev);
       } else {
         console.error(
           "An error occurred while updating preferences:",
@@ -76,16 +76,20 @@ const ProfilePreferences = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Profile Preferences</h2>
       {isUpdated && (
-        <div className="success-message">Preferences updated successfully!</div>
+        <div className={styles.successMessage}>Preferences updated successfully!</div>
       )}
       <form onSubmit={handleSubmit}>
         {/* Genres dropdown */}
-        <label htmlFor="genre-select">Favorite Genre:</label>
+        <div className={styles.formGroup}></div>
+        <label htmlFor="genre-select" className={styles.formLabel}>
+          <strong>Favorite Genre:</strong>
+        </label>
         <select
           id="genre-select"
+          className={styles.formSelect}
           value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
           required
@@ -99,16 +103,22 @@ const ProfilePreferences = () => {
         </select>
 
         {/* Favorite book quote */}
-        <label htmlFor="favorite-quote">Favorite Book Quote:</label>
+        <div className={styles.formGroup}></div>
+        <label htmlFor="favorite-quote"  className={styles.formLabel}>
+          <strong>Favorite Book Quote:</strong>
+        </label>
         <textarea
           id="favorite-quote"
+          className={styles.favoriteQuoteTextarea} 
           value={favoriteQuote}
           onChange={(e) => setFavoriteQuote(e.target.value)}
           maxLength="300"
           required
+          rows="6"
+          cols="50"
         ></textarea>
 
-        <button type="submit">Save Preferences</button>
+        <button type="submit"className={styles.formButton}>Save Preferences</button>
       </form>
     </div>
   );

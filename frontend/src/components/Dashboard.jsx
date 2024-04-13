@@ -8,6 +8,7 @@ import {
 import { fetchMyBookClubs } from "../api/bookClubApi";
 import BookSearch from "./BookSearch";
 import { Link } from "react-router-dom";
+import styles from "../styles/Dashboard.module.css";
 
 /**
  * Dashboard serves as the main user interface for displaying a user's book clubs,
@@ -107,50 +108,66 @@ function Dashboard() {
 
   return (
     <div>
-      <h2>Dashboard</h2>
-      <p>Welcome, {username}</p>
+      <h1 className="sectionTitle">Dashboard</h1>
+      <p className="welcomeMessage">Welcome, {username}</p>
       <section>
-        <h3>My Book Clubs</h3>
-        <div className="book-clubs-list">
+        <h2 className="sectionTitle">My Book Clubs</h2>
+        <div className={styles.bookClubsList}>
           {userBookClubs.map((club) => (
-            <div key={club.clubid} className="book-club">
-              <h4>
+            <div key={club.clubid} className={styles.bookClubCard}>
+              <h4 className={styles.bookClubName}>
                 <Link to={`/bookclubs/${club.clubid}`}>{club.clubname}</Link>
               </h4>
-              <p>Description: {club.description}</p>
-              <p>Meeting Info: {club.meetinginfo}</p>
-              <p>Announcements: {club.announcements}</p>
+              <p>
+                <strong>Meeting Info:</strong>
+                <br />
+                {club.meetinginfo}
+              </p>
+              <p>
+                <strong>Announcements:</strong>
+                <br />
+                {club.announcements}
+              </p>
             </div>
           ))}
         </div>
       </section>
-      <BookSearch
-        onAdd={handleAddBook}
-        showResults={showSearchResults}
-        setShowResults={setShowSearchResults}
-      />
       <section>
-        <h3>Currently Reading</h3>
-        <ul>
+        <h2 className="sectionTitle">Book Search</h2>
+        <BookSearch
+          onAdd={handleAddBook}
+          showResults={showSearchResults}
+          setShowResults={setShowSearchResults}
+        />
+      </section>
+
+      <section>
+        <h2 className="sectionTitle">Currently Reading</h2>
+        <div className={styles.currentlyReadingList}>
           {currentlyReading.map((book) => (
-            <li key={book.id}>
+            <div key={book.id} className={styles.currentlyReadingCard}>
               <img
                 src={book.coverImage}
                 alt={`Cover of ${book.title}`}
-                style={{ marginRight: "10px" }}
+                className={styles.bookCover}
               />
-              {book.title} by {book.author}
-              <button onClick={() => handleRemoveBook(book.id)}>Remove</button>
-              <label>
-                Finished?{" "}
-                <input
-                  type="checkbox"
-                  onChange={() => handleFinishBook(book.id)}
-                />
-              </label>
-            </li>
+              <div>
+                <h4>{book.title}</h4>
+                <p>by {book.author}</p>
+                <button onClick={() => handleRemoveBook(book.id)}>
+                  Remove
+                </button>
+                <label>
+                  Finished?{" "}
+                  <input
+                    type="checkbox"
+                    onChange={() => handleFinishBook(book.id)}
+                  />
+                </label>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
     </div>
   );
