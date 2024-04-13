@@ -1,0 +1,29 @@
+.bookClubsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; 
+}
+
+.bookClubCard {
+  border: 1px solid #ccc; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  padding: 20px;
+  border-radius: 8px; 
+  width: 300px; 
+  text-align: center; 
+}
+
+.bookClubCard h3 {
+  color: #34568B; 
+}
+
+.bookClubCard p {
+  color: #666; 
+}
+
+.bookClubCard a {
+  color: #FF6F61; 
+  text-decoration: none; 
+  font-weight: bold; 
+}

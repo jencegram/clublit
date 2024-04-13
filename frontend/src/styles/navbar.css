@@ -3,9 +3,9 @@
   top: 0;
   left: 0; 
   right: 0; 
-  padding: 10px 0;
+  padding: 5px 0;
   z-index: 100;
-  background: #fff;
+  background: #abacaf;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,7 @@
 }
 
 .activeLink {
-  color: #007bff;
+  color: #5407ac;
   text-decoration: underline;
   font-size: 1rem; 
 }

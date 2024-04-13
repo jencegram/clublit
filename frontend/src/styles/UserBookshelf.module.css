@@ -1,0 +1,30 @@
+.booksContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 150px;
+}
+
+.bookImage {
+  width: 100px;  
+  height: 150px; 
+  margin-bottom: 10px;
+}
+
+.finishedBookText {
+  font-size: 0.8rem; 
+  color: #646cff; 
+  padding: 3px; 
+  margin-top: 10px; 
+}
