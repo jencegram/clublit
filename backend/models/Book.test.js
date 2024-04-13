@@ -87,7 +87,7 @@ describe('Book Model', () => {
 
     it('should return default image URL on error', async () => {
       axios.get.mockRejectedValue(new Error('API error'));
-      const defaultImageUrl = 'default_cover_image_url_here';
+      const defaultImageUrl = 'http://localhost:3000/images/notavailablebook.png';
 
       const coverImage = await Book.fetchCoverImage('Test Book');
 
