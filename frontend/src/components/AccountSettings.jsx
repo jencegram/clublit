@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { updatePassword } from "../api/userApi";
-import styles from "../styles/AccountSettings.module.css";
+
 /**
  * AccountSettings component provides an interface for users to change their password.
  * It includes form inputs for the old password, new password, and confirmation of the new password.
