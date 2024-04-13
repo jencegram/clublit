@@ -1,0 +1,32 @@
+.favoriteQuoteTextarea {
+  width: 350px; 
+  height: 150px; 
+  resize: none; 
+}
+
+.container {
+  max-width: 350px; 
+  margin: auto; 
+}
+
+.formGroup {
+  margin-bottom: 20px; 
+}
+
+.formLabel {
+  display: block; 
+  margin-bottom: 5px; 
+  font-weight: bold; 
+}
+
+.formSelect,
+.favoriteQuoteTextarea,
+.formButton {
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.formButton {
+  padding: 10px; 
+  margin-top: 10px; 
+}
