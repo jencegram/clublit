@@ -2,6 +2,8 @@ const Forum = require('../models/Forum');
 const BookClub = require('../models/BookClub');
 const Membership = require('../models/Membership');
 
+
+
 // Function to retrieve all book clubs from the database
 /**
  * Retrieves all book clubs from the database and returns them.
@@ -60,7 +62,12 @@ exports.createBookClub = async (req, res) => {
 
   } catch (error) {
     console.error('Error creating book club:', error);
-    res.status(500).send('Server error');
+    if (error.code === '22001') {
+      // If the description is too long
+      res.status(400).json({ message: 'Description is too long. Please keep it under 255 characters.' });
+    } else {
+      res.status(500).json({ message: 'An error occurred while creating the book club.' });
+    }
   }
 };
 
@@ -261,7 +268,7 @@ exports.checkMembership = async (req, res) => {
  */
 exports.leaveBookClub = async (req, res) => {
   const userId = req.user.userId;
-  const { clubId } = req.params; parameter
+  const { clubId } = req.params;
 
   try {
     const result = await Membership.remove(userId, clubId);

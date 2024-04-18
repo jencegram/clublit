@@ -1,5 +1,3 @@
-// backend/controllers/StatesController.js
-
 const State = require('../models/State');
 
 /**

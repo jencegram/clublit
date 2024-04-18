@@ -1,4 +1,3 @@
-// backend/controllers/GenreController.js
 const pool = require('../db');
 
 /**
