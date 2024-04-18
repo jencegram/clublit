@@ -1,5 +1,3 @@
-// backend/routes/forums.js
-
 const express = require('express');
 const ForumController = require('../controllers/ForumController');
 const authenticateToken = require('../middleware/authenticateToken');
