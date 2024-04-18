@@ -1,0 +1,26 @@
+.postCard {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px;
+  max-height: 150px; 
+  overflow-y: auto; 
+  word-wrap: break-word; 
+}
+
+.postAuthor {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.postDate {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.postContent {
+  line-height: 1.4;
+}

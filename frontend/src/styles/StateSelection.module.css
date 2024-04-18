@@ -8,7 +8,7 @@
 .stateBlock {
   cursor: pointer;
   padding: 10px;
-  border: 3px solid #3cc6e9;
+  border: 3px solid #4CAF50;
   border-radius: 5px;
   text-align: center;
   width: calc(20% - 20px); 

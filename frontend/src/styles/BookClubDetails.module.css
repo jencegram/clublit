@@ -1,0 +1,47 @@
+.bold {
+  font-weight: bold;
+  display: block; /* To ensure it takes the full width */
+}
+
+.section, .editSection {
+  background-color: white; /* Set the background to white */
+  border: 1px solid #ccc; /* Example border, change color as needed */
+  padding: 10px; /* Add some padding */
+  margin-bottom: 1rem;
+  max-width: 700px; /* Match the width of forum sections */
+  margin-left: auto; /* Centering the div */
+  margin-right: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow */
+  border-radius: 4px; /* Optional: rounds the corners */
+}
+
+.editGroup {
+  margin-bottom: 15px;
+}
+
+.editLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input, .textareaLarge {
+  width: calc(100% - 20px); /* Subtract padding */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.textareaLarge {
+  min-height: 150px; /* You can adjust this value to match the height of the forum sections */
+}
+
+.buttonGroup {
+  text-align: right;
+  margin-top: 10px; /* Add spacing above the buttons, if needed */
+}
+
+
+

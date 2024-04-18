@@ -1,12 +1,15 @@
 .bookClubsList {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem; 
+}
+
+.currentlyReadingList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-}
-
-.bookClubName {
-  font-size: 1.1rem;
+  gap: 1rem; 
 }
 
 .bookClubCard {
@@ -14,11 +17,30 @@
   padding: 0.5rem;
   border-radius: 5px;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
-  min-width: 350px;
-  width: 250px;
+  width: auto; 
+  max-width: 300px; 
   min-height: 200px;
   text-align: center;
+  margin-bottom: 1rem;
 }
+
+
+.currentlyReadingCard {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  max-width: calc(33.333% - 1rem);
+  min-height: 150px;
+  text-align: center;
+  margin-bottom: 1rem; 
+}
+
+
+.bookClubName {
+  font-size: 1.1rem;
+}
+
 
 .welcomeMessage {
   margin-top: 1.5rem;
@@ -31,31 +53,9 @@
   margin-bottom: 1rem;
 }
 
-.currentlyReadingList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.currentlyReadingCard {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  text-align: center;
-}
-
-.currentlyReadingTitle {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
 
 .bookCover {
-  max-width: 80%;
+  max-width: 100%;
   height: auto;
   margin-bottom: 1rem;
 }
@@ -64,4 +64,12 @@
 .currentlyReadingList {
   list-style: none;
   padding: 0;
+}
+
+@media (max-width: 600px) {
+  .currentlyReadingCard {
+    flex: 0 0 100%; 
+    max-width: 100%; 
+    margin-right: 0;
+  }
 }
