@@ -61,7 +61,8 @@ export const addBookToCurrentlyReading = async (bookData) => {
     body: JSON.stringify(bookData),
   });
   if (!response.ok) {
-    throw new Error('Failed to add book to currently reading list');
+    const errorBody = await response.text(); 
+    throw new Error(`Failed to add book to currently reading list: ${errorBody}`);
   }
   return response.json();
 };
@@ -89,24 +90,26 @@ export const markBookAsFinished = async (bookId) => {
  * Requires authorization token and user ID.
  */
 export const fetchUsersFinishedBooks = async (userId) => {
-  const token = localStorage.getItem('token');
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/users/${userId}/finished`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const response = await fetch(`${API_URL}/users/${userId}/finished`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch finished books for user');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch finished books for user: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error in fetchUsersFinishedBooks:", error);
+    throw error; 
   }
-  return response.json();
 };
 
 
-/**
- * Fetches currently reading books for a specific user by their user ID.
- * Requires authorization token.
- */
 export const fetchCurrentlyReadingForUser = async (userId) => {
   const token = localStorage.getItem('token');
   const response = await fetch(`${API_URL}/users/${userId}/currently-reading`, {

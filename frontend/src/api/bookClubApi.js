@@ -17,7 +17,8 @@ export const createBookClub = async (bookClubData) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create book club');
+      const errorBody = await response.json();  
+      throw new Error(errorBody.message);  
     }
 
     const data = await response.json();
@@ -84,16 +85,22 @@ export const fetchBookClubDetails = async (clubId) => {
  * Requires authentication.
  */
 export const fetchMyBookClubs = async () => {
-  const token = localStorage.getItem('token');
-  const response = await fetch(`${API_URL}/user/bookclubs`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  });
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/user/bookclubs`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch my book clubs');
+    if (!response.ok) {
+      const errorDetails = await response.text(); 
+      throw new Error(`Failed to fetch my book clubs: ${errorDetails}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching my book clubs:', error);
+    throw error; 
   }
-
-  return await response.json();
 };
 
 /**
@@ -184,7 +191,7 @@ export const updateUserPreferences = async (preferences) => {
 export const updateBookClubDetails = async (clubId, updates) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${API_URL}/bookclubs/${clubId}/update`, { // Ensure the endpoint matches the backend.
+    const response = await fetch(`${API_URL}/bookclubs/${clubId}/update`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -194,7 +201,7 @@ export const updateBookClubDetails = async (clubId, updates) => {
     });
 
     if (!response.ok) {
-      const error = await response.json(); // Use response.json() if the server sends JSON error details.
+      const error = await response.json(); 
       throw new Error(error.message || 'Failed to update book club details');
     }
 
