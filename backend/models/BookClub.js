@@ -10,6 +10,8 @@ class BookClub {
  * @returns {object} The newly created book club.
  */
   static async create({ clubName, description, clubType, state, city, clubPrivacy, adminUserID }) {
+    description = description.substring(0, 300);
+    
     const query = `
       INSERT INTO book_clubs
       (clubname, description, club_type, state, city, clubprivacy, adminuserid, createddate)
