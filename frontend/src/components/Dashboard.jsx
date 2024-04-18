@@ -52,28 +52,32 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    setUsername(storedUsername);
 
+  // Load data on component mount
+  useEffect(() => {
+    setUsername(localStorage.getItem("username") || "");
     loadUserBookClubs();
     loadCurrentlyReading();
   }, []);
 
+  // Add a book to the currently reading list
   const handleAddBook = async (book) => {
     try {
-      await addBookToCurrentlyReading({
+      const bookData = {
         title: book.title,
         author: book.author_name[0],
         openLibraryId: book.key,
-      });
+      };
+      await addBookToCurrentlyReading(bookData);
       await loadCurrentlyReading();
       setShowSearchResults(false);
     } catch (error) {
-      console.error(error.message);
+      console.error("Error adding book to currently reading:", error);
     }
   };
 
+
+  // Mark a book as finished
   const handleFinishBook = async (bookId) => {
     try {
       await markBookAsFinished(bookId);
@@ -83,24 +87,17 @@ function Dashboard() {
     }
   };
 
+  // Remove a book from the currently reading list
   const handleRemoveBook = async (bookId) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_URL}/currently-reading/${bookId}`, {
+      await fetch(`${API_URL}/currently-reading/${bookId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-      if (response.ok) {
-        setCurrentlyReading(
-          currentlyReading.filter((book) => book.id !== bookId)
-        );
-      } else {
-        console.error("Failed to remove book");
-      }
+      loadCurrentlyReading();
     } catch (error) {
       console.error("Error removing book:", error);
     }
@@ -140,7 +137,6 @@ function Dashboard() {
           setShowResults={setShowSearchResults}
         />
       </section>
-
       <section>
         <h2 className="sectionTitle">Currently Reading</h2>
         <div className={styles.currentlyReadingList}>
@@ -154,16 +150,21 @@ function Dashboard() {
               <div>
                 <h4>{book.title}</h4>
                 <p>by {book.author}</p>
-                <button onClick={() => handleRemoveBook(book.id)}>
+                <button
+                  onClick={() => handleRemoveBook(book.id)}
+                  className={styles.removeButton}
+                >
                   Remove
                 </button>
-                <label>
-                  Finished?{" "}
-                  <input
-                    type="checkbox"
-                    onChange={() => handleFinishBook(book.id)}
-                  />
-                </label>
+                <div className={styles.finishedCheckbox}>
+                  <label>
+                    Finished?
+                    <input
+                      type="checkbox"
+                      onChange={() => handleFinishBook(book.id)}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           ))}

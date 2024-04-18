@@ -9,6 +9,7 @@ import {
   checkMembership,
   leaveBookClub,
 } from "../api/bookClubApi";
+import styles from "../styles/BookClubDetails.module.css";
 
 /**
  * BookClubDetails displays details of a specific book club, including meeting information, announcements, and related forums.
@@ -38,23 +39,24 @@ function BookClubDetails() {
         const details = await fetchBookClubDetails(clubId);
         setClubDetails(details);
 
-        if (clubId && localStorage.getItem("userId")) {
-          const membershipStatus = await checkMembership(clubId);
-          const isMember =
-            details.adminuserid ===
-              parseInt(localStorage.getItem("userId"), 10) ||
-            membershipStatus.isMember;
-          setIsAdmin(
-            details.adminuserid === parseInt(localStorage.getItem("userId"), 10)
-          );
-          setHasJoined(isMember);
+        const currentUserId = parseInt(localStorage.getItem("userId"), 10);
 
-          if (isMember) {
-            const forumsData = await fetchForumsByClubId(clubId);
-            setForums(forumsData);
-            setMeetingInfo(details.meetinginfo || "");
-            setAnnouncements(details.announcements || "");
-          }
+        const membershipStatus = await checkMembership(clubId);
+
+        const isCurrentUserAdmin = details.adminuserid === currentUserId;
+
+        setIsAdmin(isCurrentUserAdmin);
+        setHasJoined(isCurrentUserAdmin || membershipStatus.isMember);
+
+        if (isCurrentUserAdmin || membershipStatus.isMember) {
+          const forumsData = await fetchForumsByClubId(clubId);
+          setForums(forumsData);
+          setMeetingInfo(
+            details.meetinginfo ? details.meetinginfo.substring(0, 300) : ""
+          );
+          setAnnouncements(
+            details.announcements ? details.announcements.substring(0, 300) : ""
+          );
         }
       } catch (error) {
         console.error("Failed to fetch book club details:", error);
@@ -82,9 +84,22 @@ function BookClubDetails() {
   const handleJoinClub = async () => {
     try {
       await joinBookClub(clubId);
-      setHasJoined(true);
       setJoinError("");
+
+      const updatedClubDetails = await fetchBookClubDetails(clubId);
+
+      setMeetingInfo(updatedClubDetails.meetinginfo);
+      setAnnouncements(updatedClubDetails.announcements);
+
+      const membershipStatus = await checkMembership(clubId);
+      setHasJoined(membershipStatus.isMember);
+
+      if (membershipStatus.isMember) {
+        const forumsData = await fetchForumsByClubId(clubId);
+        setForums(forumsData);
+      }
     } catch (error) {
+      console.error(`Error joining club: ${error}`);
       setJoinError(error.toString());
     }
   };
@@ -105,12 +120,15 @@ function BookClubDetails() {
 
       {hasJoined && (
         <>
-          <p>
-            <strong>Meeting Information:</strong> {meetingInfo}
-          </p>
-          <p>
-            <strong>Announcements:</strong> {announcements}
-          </p>
+          <div className={styles.section}>
+            <p className={styles.bold}>Meeting Information:</p>
+            <p>{meetingInfo}</p>
+          </div>
+
+          <div className={styles.section}>
+            <p className={styles.bold}>Announcements:</p>
+            <p>{announcements}</p>
+          </div>
 
           <h3>Forums</h3>
           {forums.length > 0 ? (
@@ -142,23 +160,42 @@ function BookClubDetails() {
       )}
 
       {isAdmin && isEditMode && (
-        <div>
-          <div>
-            <label>Meeting Info:</label>
+        <div className={styles.editSection}>
+          <div className={styles.editGroup}>
+            <label htmlFor="meetingInfo" className={styles.editLabel}>
+              Meeting Info:
+            </label>
             <textarea
+              id="meetingInfo"
+              className={`${styles.input} ${styles.textareaLarge}`}
               value={meetingInfo}
               onChange={(e) => setMeetingInfo(e.target.value)}
+              maxLength={650}
             />
           </div>
-          <div>
-            <label>Announcements:</label>
+          <div className={styles.editGroup}>
+            <label htmlFor="announcements" className={styles.editLabel}>
+              Announcements:
+            </label>
             <textarea
+              id="announcements"
+              className={`${styles.input} ${styles.textareaLarge}`}
               value={announcements}
               onChange={(e) => setAnnouncements(e.target.value)}
+              maxLength={500}
             />
           </div>
-          <button onClick={handleSaveChanges}>Save Changes</button>
-          <button onClick={() => setIsEditMode(false)}>Cancel</button>
+          <div className={styles.buttonGroup}>
+            <button onClick={handleSaveChanges} className={styles.saveButton}>
+              Save Changes
+            </button>
+            <button
+              onClick={() => setIsEditMode(false)}
+              className={styles.cancelButton}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
     </div>

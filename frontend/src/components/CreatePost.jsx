@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import { createPost } from "../api/bookClubApi";
+
 
 /**
  * CreatePost provides a form for users to add a new post to a forum.
@@ -25,10 +26,10 @@ function CreatePost({ forumId, canPost }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!content.trim()) return; 
+    if (!content.trim()) return;
     try {
       await createPost(forumId, content);
-      setContent(""); 
+      setContent("");
     } catch (error) {
       console.error("Failed to create post", error);
     }
@@ -37,19 +38,25 @@ function CreatePost({ forumId, canPost }) {
   if (!canPost) return null;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Write your post here..."
-      />
-      <button type="submit">Post</button>
-    </form>
+    <div className={styles.postContainer}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <textarea
+          className={styles.textarea}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your post here..."
+          required
+        />
+        <button type="submit" className={styles.button}>
+          Post
+        </button>
+      </form>
+    </div>
   );
 }
 
 CreatePost.propTypes = {
-  forumId: PropTypes.string.isRequired, 
+  forumId: PropTypes.string.isRequired,
   canPost: PropTypes.bool.isRequired,
 };
 

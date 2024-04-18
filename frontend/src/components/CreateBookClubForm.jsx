@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBookClub, fetchStates } from "../api/bookClubApi";
+import styles from "../styles/CreateBookClubForm.module.css";
 
 /**
  * CreateBookClubForm allows users to create a new book club.
@@ -28,6 +29,7 @@ function CreateBookClubForm() {
   const [city, setCity] = useState("");
   const [states, setStates] = useState([]);
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const loadStates = async () => {
@@ -47,45 +49,68 @@ function CreateBookClubForm() {
         state,
         city,
       };
+
       const newClub = await createBookClub(newClubData);
       navigate(`/bookclubs/${newClub.clubid}`);
     } catch (error) {
-      console.error("Error creating book club:", error);
+      setError(error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={clubName}
-        onChange={(e) => setClubName(e.target.value)}
-        placeholder="Club Name"
-        required
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-        required
-      ></textarea>
-      <select value={state} onChange={(e) => setState(e.target.value)} required>
-        <option value="">Select State</option>
-        {states.map((s) => (
-          <option key={s.id} value={s.name}>
-            {s.name}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="City"
-        required
-      />
-      <button type="submit">Create Book Club</button>
-    </form>
+    <div className={styles.container}>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h2 className={styles.title}>Create Book Club</h2>
+        <div className={styles.formGroup}>
+          <input
+            type="text"
+            value={clubName}
+            onChange={(e) => setClubName(e.target.value)}
+            placeholder="Club Name"
+            className={styles.input}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+            className={`${styles.input} ${styles.textareaLarge}`}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            className={styles.input}
+            required
+          >
+            <option value="">Select State</option>
+            {states.map((s) => (
+              <option key={s.id} value={s.name}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.formGroup}>
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="City"
+            className={styles.input}
+            required
+          />
+        </div>
+        <button type="submit" className={styles.button}>
+          Create Book Club
+        </button>
+      </form>
+    </div>
   );
 }
 

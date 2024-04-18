@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
+import styles from "../styles/Login.module.css";
 
 /**
  * Login provides a form for users to enter their credentials and gain access to the application.
@@ -20,7 +21,6 @@ import { Link, useNavigate } from "react-router-dom";
  * - Navigates to the dashboard on successful login.
  * - Displays any error messages if login fails.
  */
-
 
 function Login({ setLoginStatus }) {
   const [username, setUsername] = useState("");
@@ -44,7 +44,7 @@ function Login({ setLoginStatus }) {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.userId);
-      localStorage.setItem("username", data.username); 
+      localStorage.setItem("username", data.username);
 
       setLoginStatus(true);
       navigate("/dashboard");
@@ -55,32 +55,43 @@ function Login({ setLoginStatus }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Log In</h2>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div>
-        <label htmlFor="username">Username:</label>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <h2 className={styles.title}>Log In</h2>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.formGroup}>
+        <label htmlFor="username" className={styles.label}>
+          Username:
+        </label>
         <input
           type="text"
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className={styles.input}
           required
         />
       </div>
-      <div>
-        <label htmlFor="password">Password:</label>
+      <div className={styles.formGroup}>
+        <label htmlFor="password" className={styles.label}>
+          Password:
+        </label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={styles.input}
           required
         />
       </div>
-      <button type="submit">Log In</button>
-      <div>
-        Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+      <button type="submit" className={styles.button}>
+        Log In
+      </button>
+      <div className={styles.linkContainer}>
+        Don&apos;t have an account?{" "}
+        <Link to="/signup" className={styles.link}>
+          Sign Up
+        </Link>
       </div>
     </form>
   );

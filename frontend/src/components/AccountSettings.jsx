@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { updatePassword } from "../api/userApi";
-
+import styles from "../styles/AccountSettings.module.css";
 /**
  * AccountSettings component provides an interface for users to change their password.
  * It includes form inputs for the old password, new password, and confirmation of the new password.
@@ -36,12 +36,13 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="account-settings">
-      <h2>Change Your Password</h2>
-      <form onSubmit={handleSubmit} className="password-form">
-        <div className="input-group">
-          <label>Old Password:</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Change Your Password</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Old Password:</label>
           <input
+            className={styles.input}
             data-testid="oldPassword"
             type="password"
             value={oldPassword}
@@ -49,9 +50,10 @@ const AccountSettings = () => {
             required
           />
         </div>
-        <div className="input-group">
-          <label>New Password:</label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>New Password:</label>
           <input
+            className={styles.input}
             data-testid="newPassword"
             type="password"
             value={newPassword}
@@ -59,9 +61,10 @@ const AccountSettings = () => {
             required
           />
         </div>
-        <div className="input-group">
-          <label>Confirm New Password:</label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Confirm New Password:</label>
           <input
+            className={styles.input}
             data-testid="confirmPassword"
             type="password"
             value={confirmPassword}
@@ -69,10 +72,12 @@ const AccountSettings = () => {
             required
           />
         </div>
-        <button type="submit">Change Password</button>
+        <button type="submit" className={styles.button}>
+          Change Password
+        </button>
       </form>
       {feedbackMessage && (
-        <div className="feedback-message">{feedbackMessage}</div>
+        <div className={styles.feedbackMessage}>{feedbackMessage}</div>
       )}
     </div>
   );

@@ -14,15 +14,13 @@ import styles from "../styles/LandingPage.module.css";
 function LandingPage() {
   return (
     <div className={styles.container}>
-      {/* Title with lines */}
       <div className={styles.titleLine}></div>
       <h1 className={styles.title}>
         Explore the World of Books with{" "}
-        <span className={styles.clubLit}>ClubLit</span>
+        <span className={styles.clubLit}>ClubLit(erature)</span>
       </h1>
       <div className={styles.titleLine}></div>
 
-      {/* Introduction text */}
       <p className={styles.introText}>
         Join a vibrant community of book enthusiasts. Discover your next great
         read, create your own book club for your area, or join an existing one,
@@ -32,7 +30,6 @@ function LandingPage() {
         ultimate destination for all things books.
       </p>
 
-      {/* Log In and Sign Up links */}
       <div className={styles.links}>
         <Link to="/login" className={styles.link}>
           Log In

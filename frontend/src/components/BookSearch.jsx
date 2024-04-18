@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { searchBooks } from "../api/bookApi";
 import styles from "../styles/BookSearch.module.css";
 
 /**
@@ -26,10 +27,12 @@ const BookSearch = ({ onAdd, showResults, setShowResults }) => {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     if (!query.trim()) {
       setError("Please enter a search term.");
       return;
@@ -52,6 +55,7 @@ const BookSearch = ({ onAdd, showResults, setShowResults }) => {
       console.error("Failed to fetch:", error.message);
       setError("Failed to fetch results.");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -67,6 +71,7 @@ const BookSearch = ({ onAdd, showResults, setShowResults }) => {
         <button className={styles.searchButton} type="submit">
           Search
         </button>
+        {isLoading && <div className={styles.loader}>Loading...</div>}
         {showResults && (
           <button
             className={styles.hideResultsButton}
@@ -103,81 +108,3 @@ BookSearch.propTypes = {
 };
 
 export default BookSearch;
-
-// const BookSearch = ({ onAdd, showResults, setShowResults }) => {
-//   const [query, setQuery] = useState("");
-//   const [searchResults, setSearchResults] = useState([]);
-//   const [error, setError] = useState("");
-
-//   const handleSearch = async (e) => {
-//     e.preventDefault();
-//     setError("");
-//     if (!query.trim()) {
-//       setError("Please enter a search term.");
-//       return;
-//     }
-//     try {
-//       const response = await fetch(
-//         `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
-//       );
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const data = await response.json();
-//       if (data && data.docs) {
-//         setSearchResults(data.docs.slice(0, 10));
-//         setShowResults(true);
-//       } else {
-//         setError("No results found.");
-//       }
-//     } catch (error) {
-//       console.error("Failed to fetch:", error.message);
-//       setError("Failed to fetch results.");
-//     }
-//   };
-
-//   const handleHideResults = () => {
-//     setShowResults(false);
-//     setSearchResults([]);
-//   };
-
-//   return (
-//     <div>
-//       <div className={styles.searchContainer}></div>
-//       <form onSubmit={handleSearch}>
-//         <input
-//           type="text"
-//           placeholder="Search books..."
-//           value={query}
-//           onChange={(e) => setQuery(e.target.value)}
-//         />
-//         <button type="submit">Search</button>
-//         {showResults && (
-//           <button onClick={handleHideResults}>Hide Results</button>
-//         )}
-//       </form>
-//       {error && <p>{error}</p>}
-//       {showResults && (
-//         <ul>
-//           {searchResults.map((book, index) => (
-//             <li key={index}>
-//               {book.title} by{" "}
-//               {book.author_name
-//                 ? book.author_name.join(", ")
-//                 : "Unknown Author"}
-//               <button onClick={() => onAdd(book)}>Add</button>
-//             </li>
-//           ))}
-//         </ul>
-//       )}
-//     </div>
-//   );
-// };
-
-// BookSearch.propTypes = {
-//   onAdd: PropTypes.func.isRequired,
-//   showResults: PropTypes.bool.isRequired,
-//   setShowResults: PropTypes.func.isRequired,
-// };
-
-// export default BookSearch;

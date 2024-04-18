@@ -15,22 +15,24 @@ import { fetchMyBookClubs } from "../api/bookClubApi";
  * - Provides a button to create a new book club only if the user is not part of any clubs.
  */
 function BookClubs() {
-  const [hasBookClub, setHasBookClub] = useState(false);
+  const [userHasCreatedClub, setUserHasCreatedClub] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkUserBookClub = async () => {
+    const checkUserClubs = async () => {
       try {
-        const myClubs = await fetchMyBookClubs();
-        if (myClubs.length > 0) {
-          setHasBookClub(true);
-        }
+        const clubs = await fetchMyBookClubs();
+        const userId = localStorage.getItem("userId");
+        const hasCreated = clubs.some(
+          (club) => club.adminuserid.toString() === userId
+        );
+        setUserHasCreatedClub(hasCreated);
       } catch (error) {
-        console.error("Error fetching the user's book clubs:", error);
+        console.error("Error fetching the user's book clubs: ", error.message);
       }
     };
 
-    checkUserBookClub();
+    checkUserClubs();
   }, []);
 
   return (
@@ -41,12 +43,10 @@ function BookClubs() {
           In-Person Clubs
         </button>
       </div>
-      {!hasBookClub && (
-        <div>
-          <button onClick={() => navigate("/createbookclub")}>
-            Create Your Book Club
-          </button>
-        </div>
+      {!userHasCreatedClub && (
+        <button onClick={() => navigate("/createbookclub")}>
+          Create Your Book Club
+        </button>
       )}
     </div>
   );

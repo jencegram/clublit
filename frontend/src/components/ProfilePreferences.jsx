@@ -1,4 +1,3 @@
-// frontend/src/components/ProfilePreferences.jsx
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -6,6 +5,7 @@ import {
   updateUserPreferences,
   getUserPreferences,
 } from "../api/bookClubApi";
+import { Link } from "react-router-dom";
 import styles from "../styles/ProfilePreferences.module.css";
 
 /**
@@ -28,6 +28,7 @@ const ProfilePreferences = () => {
   const [selectedGenre, setSelectedGenre] = useState("");
   const [favoriteQuote, setFavoriteQuote] = useState("");
   const [isUpdated, setIsUpdated] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const loadPreferencesAndGenres = async () => {
@@ -78,8 +79,14 @@ const ProfilePreferences = () => {
   return (
     <div className={styles.container}>
       <h2>Profile Preferences</h2>
+      <div className={styles.bookshelfLinkContainer}>
+        {/* Create a link to the user's bookshelf using their user ID */}
+        <Link to={`/usersbookshelf/${userId}`}> ***Go to My Bookshelf ***</Link>
+      </div>
       {isUpdated && (
-        <div className={styles.successMessage}>Preferences updated successfully!</div>
+        <div className={styles.successMessage}>
+          Preferences updated successfully!
+        </div>
       )}
       <form onSubmit={handleSubmit}>
         {/* Genres dropdown */}
@@ -104,12 +111,12 @@ const ProfilePreferences = () => {
 
         {/* Favorite book quote */}
         <div className={styles.formGroup}></div>
-        <label htmlFor="favorite-quote"  className={styles.formLabel}>
+        <label htmlFor="favorite-quote" className={styles.formLabel}>
           <strong>Favorite Book Quote:</strong>
         </label>
         <textarea
           id="favorite-quote"
-          className={styles.favoriteQuoteTextarea} 
+          className={styles.favoriteQuoteTextarea}
           value={favoriteQuote}
           onChange={(e) => setFavoriteQuote(e.target.value)}
           maxLength="300"
@@ -118,7 +125,9 @@ const ProfilePreferences = () => {
           cols="50"
         ></textarea>
 
-        <button type="submit"className={styles.formButton}>Save Preferences</button>
+        <button type="submit" className={styles.formButton}>
+          Save Preferences
+        </button>
       </form>
     </div>
   );

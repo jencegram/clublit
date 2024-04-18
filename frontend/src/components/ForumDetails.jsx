@@ -1,4 +1,3 @@
-// frontend/src/components/ForumDetails.jsx
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -8,6 +7,7 @@ import {
   checkMembership,
 } from "../api/bookClubApi";
 import AddPostForm from "./AddPostForm";
+import styles from "../styles/ForumDetails.module.css";
 
 /**
  * ForumDetails displays details about a specific forum including posts made within the forum.
@@ -41,9 +41,9 @@ function ForumDetails() {
         const postsData = await fetchPostsByForumId(forumId);
         setPosts(postsData);
 
-        const clubId = forumDetails.clubid; 
+        const clubId = forumDetails.clubid;
 
-        const userId = localStorage.getItem("userId"); 
+        const userId = localStorage.getItem("userId");
         const membershipStatus = await checkMembership(clubId, userId);
         setHasJoined(membershipStatus.isMember);
       } catch (error) {
@@ -76,18 +76,22 @@ function ForumDetails() {
       {addingPost && (
         <AddPostForm forumId={forumId} onPostAdded={handlePostAdded} />
       )}
-      {posts.map((post) => (
-        <div key={post.postid}>
-          <p>
-            <Link to={`/usersbookshelf/${post.authoruserid}`}>
-              {post.username}
-            </Link>
-            : {post.content}
-            <br />
-            <small>posted on {post.formatted_date}</small>
-          </p>
-        </div>
-      ))}
+      <div className={styles.postsContainer}>
+        {posts.map((post) => (
+          <div key={post.postid} className={styles.postCard}>
+            <div className="postHeader">
+              <Link
+                to={`/usersbookshelf/${post.authoruserid}`}
+                className="postAuthor"
+              >
+                {post.username}
+              </Link>
+              <div className="postDate">posted on {post.formatted_date}</div>
+              <div className="postMessage">{post.content}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 import { useState } from "react";
 import { createPost } from "../api/bookClubApi";
 import PropTypes from "prop-types";
+import styles from "../styles/AddPostForm.module.css";
 
 /**
  * AddPostForm provides a form for users to create new posts within a specific forum.
@@ -20,21 +21,26 @@ function AddPostForm({ forumId, onPostAdded }) {
     e.preventDefault();
     try {
       await createPost(forumId, postContent);
-      onPostAdded(); 
+      onPostAdded();
     } catch (error) {
       console.error("Error creating post:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        value={postContent}
-        onChange={(e) => setPostContent(e.target.value)}
-        placeholder="Write your post here..."
-        required
-      />
-      <button type="submit">Add Post</button>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formGroup}>
+        <textarea
+          className={styles.textarea} 
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
+          placeholder="Write your post here..."
+          required
+        />
+      </div>
+      <button type="submit" className={styles.button}>
+        Add Post
+      </button>
     </form>
   );
 }
