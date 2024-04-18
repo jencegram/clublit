@@ -1,0 +1,806 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: book_clubs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.book_clubs (
+    clubid integer NOT NULL,
+    clubname character varying(50) NOT NULL,
+    description character varying(255) NOT NULL,
+    clubprivacy boolean NOT NULL,
+    adminuserid integer,
+    createddate date NOT NULL,
+    club_type character varying(255) NOT NULL,
+    state character varying(255) NOT NULL,
+    city character varying(255) NOT NULL,
+    meetinginfo text,
+    announcements text
+);
+
+
+--
+-- Name: book_clubs_clubid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.book_clubs_clubid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: book_clubs_clubid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.book_clubs_clubid_seq OWNED BY public.book_clubs.clubid;
+
+
+--
+-- Name: forums; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forums (
+    forumid integer NOT NULL,
+    clubid integer NOT NULL,
+    title character varying(255) NOT NULL,
+    description text NOT NULL,
+    isadminonly boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: forums_forumid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.forums_forumid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forums_forumid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.forums_forumid_seq OWNED BY public.forums.forumid;
+
+
+--
+-- Name: genres; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.genres (
+    genre_id integer NOT NULL,
+    genre_name character varying(255) NOT NULL
+);
+
+
+--
+-- Name: genres_genre_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.genres_genre_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: genres_genre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.genres_genre_id_seq OWNED BY public.genres.genre_id;
+
+
+--
+-- Name: memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.memberships (
+    membershipid integer NOT NULL,
+    userid integer NOT NULL,
+    clubid integer NOT NULL,
+    joindate date NOT NULL
+);
+
+
+--
+-- Name: memberships_membershipid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.memberships_membershipid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: memberships_membershipid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.memberships_membershipid_seq OWNED BY public.memberships.membershipid;
+
+
+--
+-- Name: posts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.posts (
+    postid integer NOT NULL,
+    clubid integer NOT NULL,
+    authoruserid integer NOT NULL,
+    content text NOT NULL,
+    postdate timestamp with time zone NOT NULL,
+    forumid integer
+);
+
+
+--
+-- Name: posts_postid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.posts_postid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: posts_postid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.posts_postid_seq OWNED BY public.posts.postid;
+
+
+--
+-- Name: states; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.states (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+--
+-- Name: states_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.states_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.states_id_seq OWNED BY public.states.id;
+
+
+--
+-- Name: user_books; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_books (
+    id integer NOT NULL,
+    user_id integer,
+    open_library_id character varying(255) NOT NULL,
+    title character varying(255) NOT NULL,
+    author character varying(255) NOT NULL,
+    finished boolean DEFAULT false NOT NULL,
+    added_on timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: user_books_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_books_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_books_id_seq OWNED BY public.user_books.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    userid integer NOT NULL,
+    username character varying(20) NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    joindate date DEFAULT CURRENT_DATE NOT NULL,
+    profileprivacy boolean NOT NULL,
+    favorite_genre integer,
+    favorite_book_quote character varying(400)
+);
+
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.users_userid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
+
+
+--
+-- Name: book_clubs clubid; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_clubs ALTER COLUMN clubid SET DEFAULT nextval('public.book_clubs_clubid_seq'::regclass);
+
+
+--
+-- Name: forums forumid; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forums ALTER COLUMN forumid SET DEFAULT nextval('public.forums_forumid_seq'::regclass);
+
+
+--
+-- Name: genres genre_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.genres ALTER COLUMN genre_id SET DEFAULT nextval('public.genres_genre_id_seq'::regclass);
+
+
+--
+-- Name: memberships membershipid; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.memberships ALTER COLUMN membershipid SET DEFAULT nextval('public.memberships_membershipid_seq'::regclass);
+
+
+--
+-- Name: posts postid; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN postid SET DEFAULT nextval('public.posts_postid_seq'::regclass);
+
+
+--
+-- Name: states id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.states ALTER COLUMN id SET DEFAULT nextval('public.states_id_seq'::regclass);
+
+
+--
+-- Name: user_books id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_books ALTER COLUMN id SET DEFAULT nextval('public.user_books_id_seq'::regclass);
+
+
+--
+-- Name: users userid; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.users_userid_seq'::regclass);
+
+
+--
+-- Data for Name: book_clubs; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.book_clubs (clubid, clubname, description, clubprivacy, adminuserid, createddate, club_type, state, city, meetinginfo, announcements) FROM stdin;
+12	Papito	Bonito	t	15	2024-04-03	In-Person	New Jersey	Trenton	\N	\N
+13	Fingers	description	t	18	2024-04-03	In-Person	New Jersey	Ewing	\N	\N
+16	In The Details	This is a book club for all the little details	t	17	2024-04-07	In-Person	New Jersey	Belleville	\N	\N
+17	Mittens	fingerless mittens	t	19	2024-04-07	In-Person	New Jersey	Edison	Meeting info goes here	These are ANNOUNCEMENTS!
+15	2 on	tinashe	t	1	2024-04-05	In-Person	New Jersey	newark	Helllllllo - A lot of text a lot of text a lot of text blah blah blah blah jlsfhkjsdfkjserhkjsdfnkjsdhfkjsdfhksjerhkjsefh	HELLO THE NEXT MEETING IS SEPTEMBER 15 HET there good bye what is going on lalalala sldksdkfsd fsdf sdf sdf
+\.
+
+
+--
+-- Data for Name: forums; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.forums (forumid, clubid, title, description, isadminonly) FROM stdin;
+10	12	Member Introductions	Introduce yourself to fellow book lovers.	f
+11	12	Events and Meet Ups	Stay updated on upcoming book club events.	f
+12	12	Book Discussions	Dive into detailed discussions about our current reads, and past selections.	f
+13	12	Book Club Operations	Participate in the behind-the-scenes decision-making process. Vote on book selections, meeting times, and discuss how our club runs.	f
+14	12	Book Recommendations	Looking for your next great read? Get and give recommendations on what to dive into next.	f
+15	12	Author Discussions	A place to discuss specific authors, their works, and their impact on literature. Join to celebrate your favorite authors and discover new ones.	f
+16	12	General Chat	For all off-topic conversations, non-book-related hobbies, and to get to know your fellow club members beyond the books.	f
+17	13	Member Introductions	Introduce yourself to fellow book lovers.	f
+18	13	Events and Meet Ups	Stay updated on upcoming book club events.	f
+19	13	Book Discussions	Dive into detailed discussions about our current reads, and past selections.	f
+20	13	Book Club Operations	Participate in the behind-the-scenes decision-making process. Vote on book selections, meeting times, and discuss how our club runs.	f
+21	13	Book Recommendations	Looking for your next great read? Get and give recommendations on what to dive into next.	f
+22	13	Author Discussions	A place to discuss specific authors, their works, and their impact on literature. Join to celebrate your favorite authors and discover new ones.	f
+23	13	General Chat	For all off-topic conversations, non-book-related hobbies, and to get to know your fellow club members beyond the books.	f
+24	15	Member Introductions	Introduce yourself to fellow book lovers.	f
+25	15	Events and Meet Ups	Stay updated on upcoming book club events.	f
+26	15	Book Discussions	Dive into detailed discussions about our current reads, and past selections.	f
+27	15	Book Club Operations	Participate in the behind-the-scenes decision-making process. Vote on book selections, meeting times, and discuss how our club runs.	f
+28	15	Book Recommendations	Looking for your next great read? Get and give recommendations on what to dive into next.	f
+29	15	Author Discussions	A place to discuss specific authors, their works, and their impact on literature. Join to celebrate your favorite authors and discover new ones.	f
+30	15	General Chat	For all off-topic conversations, non-book-related hobbies, and to get to know your fellow club members beyond the books.	f
+31	16	Member Introductions	Introduce yourself to fellow book lovers.	f
+32	16	Events and Meet Ups	Stay updated on upcoming book club events.	f
+33	16	Book Discussions	Dive into detailed discussions about our current reads, and past selections.	f
+34	16	Book Club Operations	Participate in the behind-the-scenes decision-making process. Vote on book selections, meeting times, and discuss how our club runs.	f
+35	16	Book Recommendations	Looking for your next great read? Get and give recommendations on what to dive into next.	f
+36	16	Author Discussions	A place to discuss specific authors, their works, and their impact on literature. Join to celebrate your favorite authors and discover new ones.	f
+37	16	General Chat	For all off-topic conversations, non-book-related hobbies, and to get to know your fellow club members beyond the books.	f
+38	17	Member Introductions	Introduce yourself to fellow book lovers.	f
+39	17	Events and Meet Ups	Stay updated on upcoming book club events.	f
+40	17	Book Discussions	Dive into detailed discussions about our current reads, and past selections.	f
+41	17	Book Club Operations	Participate in the behind-the-scenes decision-making process. Vote on book selections, meeting times, and discuss how our club runs.	f
+42	17	Book Recommendations	Looking for your next great read? Get and give recommendations on what to dive into next.	f
+43	17	Author Discussions	A place to discuss specific authors, their works, and their impact on literature. Join to celebrate your favorite authors and discover new ones.	f
+44	17	General Chat	For all off-topic conversations, non-book-related hobbies, and to get to know your fellow club members beyond the books.	f
+\.
+
+
+--
+-- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.genres (genre_id, genre_name) FROM stdin;
+1	Literary Fiction
+2	Science Fiction
+3	Fantasy
+4	Mystery
+5	Thriller/Suspense
+6	Horror
+7	Romance
+8	Historical Fiction
+9	Adventure
+10	Chick Lit/Women's Fiction
+11	Crime/Detective
+12	Paranormal/Supernatural
+13	Biography/Autobiography
+14	Memoir
+15	Self-Help
+16	History
+17	Travel
+18	Essay/Reflection
+19	True Crime
+20	Philosophy
+21	Psychology
+22	Science/Nature
+23	Health & Wellness
+24	Cooking/Food
+25	Business/Finance
+26	Parenting/Family
+27	Religion/Spirituality
+28	Politics/Government
+29	Art/Photography
+30	Sports
+31	Technology
+32	Poetry
+33	Drama
+34	Graphic Novels/Comics
+35	Anthologies/Short Stories
+\.
+
+
+--
+-- Data for Name: memberships; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.memberships (membershipid, userid, clubid, joindate) FROM stdin;
+3	16	12	2024-04-05
+7	1	15	2024-04-05
+9	15	12	2024-04-07
+10	19	17	2024-04-07
+12	19	15	2024-04-07
+13	19	12	2024-04-07
+14	19	16	2024-04-07
+15	1	12	2024-04-07
+23	16	15	2024-04-09
+24	1	13	2024-04-10
+25	21	12	2024-04-12
+26	21	15	2024-04-12
+\.
+
+
+--
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.posts (postid, clubid, authoruserid, content, postdate, forumid) FROM stdin;
+4	15	1	9:31PM testing to see if this works	2024-04-08 04:00:00-04	24
+5	15	1	9:41PM testing 	2024-04-08 04:00:00-04	24
+6	15	1	10:11PM - I'd like to see my username	2024-04-08 04:00:00-04	24
+7	15	1	10:32PM does this work?	2024-04-08 04:00:00-04	24
+8	12	1	11:10PM test	2024-04-08 23:10:27.02104-04	10
+9	12	1	11:11 test!	2024-04-08 23:10:34.100355-04	10
+10	15	1	11:21pm? lol	2024-04-08 23:21:20.911757-04	24
+11	13	1	Hello!	2024-04-08 23:28:18.669679-04	17
+12	15	16	Meow meow - I'm papo!	2024-04-09 10:49:21.620711-04	24
+13	12	16	Meow Meow Meow	2024-04-09 12:29:27.72652-04	10
+14	15	1	Meow Meow	2024-04-09 19:34:38.220022-04	25
+\.
+
+
+--
+-- Data for Name: states; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.states (id, name) FROM stdin;
+1	Alabama
+2	Alaska
+3	Arizona
+4	Arkansas
+5	California
+6	Colorado
+7	Connecticut
+8	Delaware
+9	Florida
+10	Georgia
+11	Hawaii
+12	Idaho
+13	Illinois
+14	Indiana
+15	Iowa
+16	Kansas
+17	Kentucky
+18	Louisiana
+19	Maine
+20	Maryland
+21	Massachusetts
+22	Michigan
+23	Minnesota
+24	Mississippi
+25	Missouri
+26	Montana
+27	Nebraska
+28	Nevada
+29	New Hampshire
+30	New Jersey
+31	New Mexico
+32	New York
+33	North Carolina
+34	North Dakota
+35	Ohio
+36	Oklahoma
+37	Oregon
+38	Pennsylvania
+39	Rhode Island
+40	South Carolina
+41	South Dakota
+42	Tennessee
+43	Texas
+44	Utah
+45	Vermont
+46	Virginia
+47	Washington
+48	West Virginia
+49	Wisconsin
+50	Wyoming
+\.
+
+
+--
+-- Data for Name: user_books; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_books (id, user_id, open_library_id, title, author, finished, added_on) FROM stdin;
+6	15	/works/OL82563W	Harry Potter and the Philosopher's Stone	J. K. Rowling	f	2024-03-26 13:02:58.055408
+7	16	/works/OL5735363W	The Hunger Games	Suzanne Collins	t	2024-03-26 13:14:14.715556
+1	1	/works/OL66554W	Pride and Prejudice	Jane Austen	t	2024-03-26 12:41:07.178131
+2	1	/works/OL66562W	Sense and Sensibility	Jane Austen	t	2024-03-26 12:41:19.011722
+3	1	/works/OL66534W	Northanger Abbey	Jane Austen	t	2024-03-26 12:41:21.573853
+4	1	/works/OL66513W	Emma	Jane Austen	t	2024-03-26 12:41:23.786188
+8	1	/works/OL82563W	Harry Potter and the Philosopher's Stone	J. K. Rowling	t	2024-03-26 22:57:45.053619
+9	1	/works/OL82548W	Harry Potter and the Order of the Phoenix	J. K. Rowling	t	2024-03-26 22:58:38.050861
+15	1	/works/OL15413843W	Mockingjay	Suzanne Collins	t	2024-03-31 14:57:59.19536
+14	1	/works/OL66513W	Emma	Jane Austen	t	2024-03-27 15:31:39.050084
+17	1	/works/OL62250W	Essays	Ralph Waldo Emerson	t	2024-04-03 20:29:18.102564
+19	1	/works/OL3294326W	Forbidden Fruit	Charlotte Lamb	t	2024-04-08 23:28:50.3904
+22	16	/works/OL151411W	Alice's Adventures in Wonderland / Through the Looking Glass	Lewis Carroll	t	2024-04-09 12:29:58.950195
+23	1	/works/OL453657W	The Colour of Magic	Terry Pratchett	t	2024-04-09 19:34:19.354271
+27	1	/works/OL82560W	Harry Potter and the Goblet of Fire	J. K. Rowling	f	2024-04-10 10:34:25.316868
+29	1	/works/OL76837W	The Da Vinci Code	Dan Brown	t	2024-04-10 13:34:44.40236
+30	1	/works/OL82537W	Among Us Story 3	J. K. Rowling	t	2024-04-11 08:48:34.945457
+32	1	/works/OL54815W	Dear John	Nicholas Sparks	f	2024-04-12 19:14:52.96508
+33	1	/works/OL54797W	The Notebook	Nicholas Sparks	f	2024-04-12 19:15:10.605815
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.users (userid, username, email, password, joindate, profileprivacy, favorite_genre, favorite_book_quote) FROM stdin;
+17	emi	emi@lit.com	$2b$10$7NOHyCWyMrcDhu2w2ZGS2e0eNJ9dw8oE9C9AMpJ7viTQRr2mc8DMi	2024-03-23	t	\N	\N
+18	finger	finger@lit.com	$2b$10$z3HQiMrADXedlJ9Rw5vw1eZTKG0trn3jtwYni4V0HfPKXJMkaS9je	2024-04-03	t	\N	\N
+19	mittens	mittens@lit.com	$2b$10$9nxBKrMNuAkA/XGmay5LhOY6ZoVVlwfuyvDeAuLJIurN52IjQEnpm	2024-04-07	t	\N	\N
+16	papo	papo@lit.com	$2b$10$aRZ04lwj42hnZ92ttQzeXOonfckihykI8IbM39vDbgsnOUyEegiqm	2024-03-23	t	14	"Travel through the book of time!!!"
+15	abba	abba@lit.com	$2b$10$t3HxcEmA.bS3M55ibhK.SePcar56wfJKIJWn0RUiwlTLDnZypXPx2	2024-03-23	t	10	The memoir of Bridget
+20	testuser	test@example.com	$2b$10$i4n9BqQdq08frUgxgN0yqOOXJsHR8uv9u5CzSeeL4dQxKJEU4INHC	2024-04-10	t	\N	\N
+21	Jennifer	jennifer@lit.com	$2b$10$EV1RZAlMJ7BKxsLgBvcUNetcNH3JF1QWtAgzU/TLb9FBx/OhfvflG	2024-04-12	t	\N	\N
+1	mollie	mollie@lit.com	$2b$10$MpsRv7GKnedcASfFiLe.9.GDhiSqzjiY/Ti/Hb0J3FsVf6Xn.qS7i	2024-03-20	t	35	“If you pick up a starving dog and make him prosperous he will not bite you. This is the principal difference between a dog and man.” 
+\.
+
+
+--
+-- Name: book_clubs_clubid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.book_clubs_clubid_seq', 17, true);
+
+
+--
+-- Name: forums_forumid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.forums_forumid_seq', 44, true);
+
+
+--
+-- Name: genres_genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.genres_genre_id_seq', 35, true);
+
+
+--
+-- Name: memberships_membershipid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.memberships_membershipid_seq', 26, true);
+
+
+--
+-- Name: posts_postid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.posts_postid_seq', 14, true);
+
+
+--
+-- Name: states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.states_id_seq', 50, true);
+
+
+--
+-- Name: user_books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.user_books_id_seq', 33, true);
+
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.users_userid_seq', 21, true);
+
+
+--
+-- Name: book_clubs book_clubs_clubname_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_clubs
+    ADD CONSTRAINT book_clubs_clubname_key UNIQUE (clubname);
+
+
+--
+-- Name: book_clubs book_clubs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_clubs
+    ADD CONSTRAINT book_clubs_pkey PRIMARY KEY (clubid);
+
+
+--
+-- Name: forums forums_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forums
+    ADD CONSTRAINT forums_pkey PRIMARY KEY (forumid);
+
+
+--
+-- Name: genres genres_genre_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.genres
+    ADD CONSTRAINT genres_genre_name_key UNIQUE (genre_name);
+
+
+--
+-- Name: genres genres_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.genres
+    ADD CONSTRAINT genres_pkey PRIMARY KEY (genre_id);
+
+
+--
+-- Name: memberships memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.memberships
+    ADD CONSTRAINT memberships_pkey PRIMARY KEY (membershipid);
+
+
+--
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (postid);
+
+
+--
+-- Name: states states_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.states
+    ADD CONSTRAINT states_name_key UNIQUE (name);
+
+
+--
+-- Name: states states_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.states
+    ADD CONSTRAINT states_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_books user_books_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_books
+    ADD CONSTRAINT user_books_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: book_clubs book_clubs_adminuserid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_clubs
+    ADD CONSTRAINT book_clubs_adminuserid_fkey FOREIGN KEY (adminuserid) REFERENCES public.users(userid);
+
+
+--
+-- Name: forums forums_clubid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forums
+    ADD CONSTRAINT forums_clubid_fkey FOREIGN KEY (clubid) REFERENCES public.book_clubs(clubid);
+
+
+--
+-- Name: memberships memberships_clubid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.memberships
+    ADD CONSTRAINT memberships_clubid_fkey FOREIGN KEY (clubid) REFERENCES public.book_clubs(clubid);
+
+
+--
+-- Name: memberships memberships_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.memberships
+    ADD CONSTRAINT memberships_userid_fkey FOREIGN KEY (userid) REFERENCES public.users(userid);
+
+
+--
+-- Name: posts posts_authoruserid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_authoruserid_fkey FOREIGN KEY (authoruserid) REFERENCES public.users(userid);
+
+
+--
+-- Name: posts posts_forumid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_forumid_fkey FOREIGN KEY (forumid) REFERENCES public.forums(forumid);
+
+
+--
+-- Name: user_books user_books_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_books
+    ADD CONSTRAINT user_books_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(userid);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

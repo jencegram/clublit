@@ -26,7 +26,7 @@ import styles from "../styles/Dashboard.module.css";
  * - Provides links to detailed views of each book club and functionality to manage reading status.
  */
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://clublit.onrender.com/api";
 
 function Dashboard() {
   const [username, setUsername] = useState("");

@@ -1,5 +1,5 @@
 // Define API base URL and external API URL
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://clublit.onrender.com/api';
 const OPEN_LIBRARY_SEARCH_URL = 'https://openlibrary.org/search.json';
 
 /**

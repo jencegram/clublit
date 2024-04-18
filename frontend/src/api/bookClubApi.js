@@ -1,5 +1,5 @@
 // Define the base API URL for local development.
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://clublit.onrender.com/api';
 
 /**
  * Creates a new book club using the provided book club data.
