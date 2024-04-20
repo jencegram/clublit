@@ -1,15 +1,24 @@
+.myBookClubsTitle {
+  font-size: 2rem; /* Default font size for larger screens */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Keeps the text within the navbar */
+  text-overflow: ellipsis; /* Adds an ellipsis if the text is too long to fit */
+}
+
 .bookClubsList {
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .currentlyReadingList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .bookClubCard {
@@ -17,13 +26,12 @@
   padding: 0.5rem;
   border-radius: 5px;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
-  width: auto; 
-  max-width: 300px; 
+  width: auto;
+  max-width: 300px;
   min-height: 200px;
   text-align: center;
   margin-bottom: 1rem;
 }
-
 
 .currentlyReadingCard {
   border: 1px solid #ddd;
@@ -33,14 +41,12 @@
   max-width: calc(33.333% - 1rem);
   min-height: 150px;
   text-align: center;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 }
-
 
 .bookClubName {
   font-size: 1.1rem;
 }
-
 
 .welcomeMessage {
   margin-top: 1.5rem;
@@ -52,7 +58,6 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-
 
 .bookCover {
   max-width: 100%;
@@ -68,8 +73,34 @@
 
 @media (max-width: 600px) {
   .currentlyReadingCard {
-    flex: 0 0 100%; 
-    max-width: 100%; 
+    flex: 0 0 100%;
+    max-width: 100%;
     margin-right: 0;
+  }
+}
+
+/* Responsive Media Query */
+@media (max-width: 768px) {
+  .myBookClubsTitle {
+    font-size: 1.5rem; /* Smaller font size for tablet devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .myBookClubsTitle {
+    font-size: 1.2rem; /* Even smaller font size for mobile devices */
+  }
+  /* Adjust navbar padding and item spacing for smaller screens */
+  .navbar {
+    padding: 2px 0;
+  }
+
+  .navItem {
+    padding: 5px 8px; /* Smaller padding for nav items */
+  }
+
+  .navItem a,
+  .navItem button {
+    font-size: 0.8rem; /* Smaller font size for links and buttons */
   }
 }
