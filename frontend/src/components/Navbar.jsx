@@ -35,7 +35,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
             to="/dashboard"
             className={({ isActive }) => (isActive ? "activeLink" : "")}
           >
-            Home Page
+            <span>Home Page</span>
           </NavLink>
         </li>
         <li className="navItem">
