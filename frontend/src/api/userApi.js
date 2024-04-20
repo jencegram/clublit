@@ -2,7 +2,7 @@
  * Updates the user's password with new credentials provided by the user.
  * This function requires the user to be authenticated and have a valid token.
  */
-const API_URL = 'http://clublit.onrender.com/api';
+const API_URL = 'https://clublit.onrender.com/api';
 
 export const updatePassword = async ({ oldPassword, newPassword }) => {
   const token = localStorage.getItem('token');
