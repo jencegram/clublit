@@ -5,7 +5,7 @@
   right: 0; 
   padding: 5px 0;
   z-index: 100;
-  background: linear-gradient(to right, #4CAF50, #0d5e18); /* Professional gradient */
+  background: linear-gradient(to right, #4CAF50, #0d5e18); 
   box-shadow: 0 1px 2px rgba(0,0,0,.1); 
   display: flex;
   justify-content: center;
@@ -25,12 +25,12 @@
 }
 
 .navItem {
-  padding: 10px 15px; /* Larger touch targets */
+  padding: 10px 15px; 
 }
 
 .navItem a, .navItem button {
-  color: #ffffff; /* Light text color for contrast */
-  text-decoration: none; /* No underline by default */
+  color: #ffffff; 
+  text-decoration: none; 
   padding: 5px 10px;
   border: none;
   background: none;
@@ -39,12 +39,12 @@
 }
 
 .navItem a:hover, .navItem button:hover {
-  background-color: rgba(255,255,255,0.2); /* Hover effect */
+  background-color: rgba(255,255,255,0.2); 
   border-radius: 5px;
 }
 
 .activeLink {
-  color: #ffcc00; /* Stand-out color for active link */
-  background-color: rgba(255,255,255,0.1); /* Slight background */
-  border-radius: 5px; /* Rounded corners */
+  color: #ffcc00; 
+  background-color: rgba(255,255,255,0.1); 
+  border-radius: 5px; 
 }
